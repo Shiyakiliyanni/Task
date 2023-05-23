@@ -1,0 +1,116 @@
+<html>
+<head>
+  <title>Shopping</title>
+</head>
+<body>
+  <h1>Select the Quantities of the products</h1>
+
+  <hr>
+  <h3>Product A</h3>
+  <p>Price: 20</p><br>
+  Quantity:
+  <input type="number" id="quana" name="quantity" min="0" max="35" value="0"><br>
+  Is it a gift?:
+  <input type="checkbox" id="gifta" name="gift">
+
+  <hr>
+  <h3>Product B</h3>
+  <p>Price: 40</p><br>
+  Quantity:
+  <input type="number" id="quanb" name="quantity" min="0" max="35" value="0"><br>
+  Is it a gift?:
+  <input type="checkbox" id="giftb" name="gift">
+
+  <hr>
+  <h3>Product C</h3>
+  <p>Price: 50</p><br>
+  Quantity:
+  <input type="number" id="quanc" name="quantity" min="0" max="35" value="0"><br>
+  Is it a gift?:
+  <input type="checkbox" id="giftc" name="gift"><br>
+
+  <button onclick="buyNow()">Buy</button>
+
+  <script>
+    function buyNow() {
+      var a = parseInt(document.getElementById("quana").value);
+      var b = parseInt(document.getElementById("quanb").value);
+      var c = parseInt(document.getElementById("quanc").value);
+      var newprice = 0;
+      var discounttype = "";
+
+      let pa = 20 * a;
+      let pb = 40 * b;
+      let pc = 50 * c;
+
+      let ga = document.getElementById("gifta").checked ? a : 0;
+      let gb = document.getElementById("giftb").checked ? b : 0;
+      let gc = document.getElementById("giftc").checked ? c : 0;
+
+      var gif = ga + gb + gc;
+      let quo = Math.floor((a + b + c) / 10);
+      let rem = (a + b + c) % 10;
+
+      let ship = rem === 0 ? 5 * quo : 5 * (quo + 1);
+
+      if (pa + pb + pc > 200) {
+        newprice = (pa + pb + pc) - 10;
+        discounttype = "Flat $10";
+      }
+
+      switch (true) {
+        case a > 10 && pa === 20:
+          newprice = (20 * a) * 0.8;
+          discounttype = "Bulk 5% for Product A";
+          break;
+        case b > 10 && pb === 40:
+          newprice = (40 * b) * 0.8;
+          discounttype = "Bulk 5% for Product B";
+          break;
+        case c > 10 && pc === 50:
+          newprice = (50 * c) * 0.8;
+          discounttype = "Bulk 5% for Product C";
+          break;
+      }
+
+      if (a + b + c > 20) {
+        newprice = (pa + pb + pc) * 0.9;
+        discounttype = "Bulk 10%";
+      }
+
+      switch (true) {
+        case (a + b + c) > 30 && a > 15:
+          newprice = (pa * 0.5) + pb + pc;
+          discounttype = "Tier 50% for Product A";
+          break;
+        case (a + b + c) > 30 && b > 15:
+          newprice = (pb * 0.5) + pa + pc;
+          discounttype = "Tier 50% for Product B";
+          break;
+        case (a + b + c) > 30 && c > 15:
+          newprice = (pc * 0.5) + pa + pb;
+          discounttype = "Tier 50% for Product C";
+          break;
+      }
+
+      const carttotal = pa + pb + pc;
+      const afterdisc = (newprice === 0 ? carttotal : newprice);
+      const discap = discounttype;
+      const discam = carttotal - afterdisc;
+      const payable = afterdisc + ship + gif;
+      const shipf = ship;
+      const giff = gif;
+
+      alert(
+        "Cart total: " + carttotal +
+        "\nDisount applied amount: " + afterdisc +
+        "\nDiscount applied: " + discap +
+        "\nDiscount amount: " + discam +
+        "\nShipping fee: " + shipf +
+        "\nGift wrap fee: " + giff +
+        "\nPayable amount:" + payable
+      );
+    }
+  </script>
+</body>
+</html>
